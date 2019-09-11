@@ -1,0 +1,17 @@
+// 
+// step
+// 
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  &__point {
+    border: 1px solid $gray-500;
+    border-radius: 20px;
+    padding: 10px 0;
+    &--ready {
+      background-color: $gray-600;
+      color: white;
+    }
+  }
+}
