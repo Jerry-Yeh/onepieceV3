@@ -65,7 +65,7 @@
         </div>
       </div>
       <!-- pagination  -->
-      <pagination :pagination="pagination" @switchPageContent="getProducts"></pagination>
+      <pagination :class="{ 'd-none': pagination == ''}" :pagination="pagination" @switchPageContent="getProducts"></pagination>
     </div>
   </div>
 </template>
@@ -187,7 +187,7 @@ export default {
         loadingItem: '',
         loadingCart: ''
       },
-      pagination: {},
+      pagination: '',
       product: {},
       isLoading: false
     }

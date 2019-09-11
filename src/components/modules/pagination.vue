@@ -1,5 +1,5 @@
 <template>
-  <nav class="d-flex justify-content-center" aria-label="Page navigation example">
+  <nav class="page" aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item" :class="{'disabled': !pagination.has_pre}">
         <a class="page-link" href="#" aria-label="Previous" @click.prevent="switchPage(pagination.current_page - 1)">
@@ -19,6 +19,10 @@
 </template>
 
 <style lang="scss" scoped>
+  .page {
+    display: flex;
+    justify-content: center;
+  }
   .page-link {
     transition: all .3s;
   }
