@@ -30,7 +30,7 @@
           <div class="d-flex justify-content-end">
             <button type="button" class="btn btn-primary"
               @click="addtoCart(product.id, product.num)">
-              <i class="fas fa-spinner fa-spin" v-if="product.id === status.loadingCart"></i>
+              <i class="fas fa-spinner fa-spin" v-if="product.id === loadingCart"></i>
               加到討伐列表
             </button>
           </div>
@@ -134,14 +134,6 @@ import 'swiper/dist/css/swiper.min.css'
 export default {
   data () {
     return {
-      product: {},
-      status: {
-        loadingCart: ''
-      },
-      isLoading: false,
-      title: '',
-      category: '',
-      filterProducts: [],
       swiperOption: {
         autoplay: { // 自動撥放
           delay: 3000,
@@ -174,60 +166,30 @@ export default {
   },
   methods: {
     // 取得所有商品
-    getProducts () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
-      vm.$http.get(api).then((response) => {
-        vm.filterProducts = response.data.products.filter((item) => {
-          if (vm.category === '最惡世代' || vm.title === '蒙其·D·魯夫' || vm.title === '羅羅亞·索隆') {
-            return item.category === vm.category || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
-          } else {
-            return item.category === vm.category
-          }
-        })
-      })
+    getProducts() {
+      this.$store.dispatch('productsModules/getProducts', this.product)
     },
     // 取得單一商品詳細資料
     getProduct (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
-      const vm = this
-      vm.isLoading = true
-      vm.$http.get(api).then((response) => {
-        $('#productModal').modal('show')
-        vm.product = response.data.product
-        vm.product.num = 1
-        vm.isLoading = false
-        vm.title = response.data.product.title
-        vm.category = response.data.product.category
-        vm.getProducts()
-      })
+      this.$store.dispatch('productsModules/getProduct', id)
     },
     // 加到討伐列表
     addtoCart (id, qty) {
-      const vm = this
-      const cartApi = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const cart = {
-        'product_id': id,
-        qty
-      }
-
-      vm.$http.get(cartApi).then((response) => {
-        let filterArray = response.data.data.carts.filter(item => {
-          return item.product_id === id
-        })
-        if (filterArray.length === 0) {
-          vm.status.loadingCart = id
-          vm.$http.post(api, { data: cart }).then((response) => {
-            $('#productModal').modal('hide')
-            vm.status.loadingCart = ''
-            vm.$bus.$emit('message:push', '成功加入討伐列表', 'success')
-          })
-        } else {
-          this.$bus.$emit('message:push', '此懸賞犯已在討伐列表中', 'danger')
-          $('#productModal').modal('hide')
-        }
-      })
+      this.$store.dispatch('cartModules/addtoCart', { id, qty })
+    }
+  },
+  computed: {
+    isLoading () {
+      return this.$store.state.isLoading
+    },
+    loadingCart() {
+      return this.$store.state.cartModules.status.loadingCart
+    },
+    filterProducts() {
+      return this.$store.state.productsModules.products
+    },
+    product() {
+      return this.$store.state.productsModules.product
     }
   },
   created () {

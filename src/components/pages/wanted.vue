@@ -12,16 +12,16 @@
         <!-- sidebar -->
         <div class="col-md-3">
           <ul class="sidebar d-md-block d-flex">
-            <li class="sidebar__item" :class="{active : status.criminal == '所有罪犯'}" @click.prevent="status.criminal='所有罪犯', getProducts()">
+            <li class="sidebar__item" :class="{active : status.category == '所有罪犯'}" @click.prevent="changeCategory('所有罪犯')">
               <a class="sidebar__link" href="#">所有罪犯</a>
             </li>
-            <li class="sidebar__item" :class="{active : status.criminal == '草帽海賊團'}" @click.prevent="status.criminal='草帽海賊團', getProducts()">
+            <li class="sidebar__item" :class="{active : status.category == '草帽海賊團'}" @click.prevent="changeCategory('草帽海賊團')">
               <a class="sidebar__link" href="#">草帽海賊團</a>
               </li>
-            <li class="sidebar__item" :class="{active : status.criminal == '四皇'}" @click.prevent="status.criminal='四皇', getProducts()">
+            <li class="sidebar__item" :class="{active : status.category == '四皇'}" @click.prevent="changeCategory('四皇')">
               <a class="sidebar__link" href="#">四皇</a>
               </li>
-            <li class="sidebar__item" :class="{active : status.criminal == '最惡世代'}" @click.prevent="status.criminal='最惡世代', getProducts()">
+            <li class="sidebar__item" :class="{active : status.category == '最惡世代'}" @click.prevent="changeCategory('最惡世代')">
               <a class="sidebar__link" href="#">最惡世代</a>
               </li>
           </ul>
@@ -56,7 +56,7 @@
                 </router-link>
                 <button type="button" class="btn btn-outline-danger btn-sm"
                 @click="addtoCart(item.id)">
-                  <i class="fas fa-spinner fa-spin" v-if="status.loadingCart === item.id"></i>
+                  <i class="fas fa-spinner fa-spin" v-if="loadingCart === item.id"></i>
                   加到討伐列表
                 </button>
               </div>
@@ -176,104 +176,44 @@
 <script>
 /* global $ */
 import pagination from '../modules/pagination'
+import { mapGetters } from 'vuex'
 
 export default {
-  data () {
-    return {
-      products: [],
-      category: '',
-      status: {
-        criminal: '所有罪犯',
-        loadingItem: '',
-        loadingCart: ''
-      },
-      pagination: '',
-      product: {},
-      isLoading: false
-    }
-  },
   components: {
     pagination
   },
   methods: {
-    // 取得全部商品
-    getProducts (page) {
-      const vm = this
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page=${page}`
-      vm.isLoading = true
-      if (vm.status.criminal === '所有罪犯') {
-        vm.$http.get(api).then((response) => {
-          vm.products = response.data.products
-          vm.isLoading = false
-          vm.pagination = response.data.pagination
-          $('nav[aria-label="Page navigation example"]').removeClass('d-none')
-        })
-      } else {
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
-        vm.$http.get(api).then((response) => {
-          vm.products = response.data.products
-          vm.isLoading = false
-        })
-        $('nav[aria-label="Page navigation example"]').addClass('d-none')
-      }
+    // 取得所有分頁商品
+    getProducts (page = 1) {
+      this.$store.dispatch('productsModules/getProductsPages', page)
     },
     // 取得單一商品詳細資料
     getProduct (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
-      const vm = this
-      vm.status.loadingItem = id
-      vm.$http.get(api).then((response) => {
-        $('#productModal').modal('show')
-        vm.product = response.data.product
-        vm.product.num = 1
-        vm.status.loadingItem = ''
-      })
+      this.$store.dispatch('productsModules/getProduct', id)
     },
     // 加到討伐列表
     addtoCart (id, qty = 1) {
-      const vm = this
-      const cartApi = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const cart = {
-        'product_id': id,
-        qty
-      }
-
-      vm.$http.get(cartApi).then((response) => {
-        let filterArray = response.data.data.carts.filter(item => {
-          return item.product_id === id
-        })
-        if (filterArray.length === 0) {
-          vm.status.loadingCart = id
-          vm.$http.post(api, { data: cart }).then((response) => {
-            $('#productModal').modal('hide')
-            vm.status.loadingCart = ''
-            vm.$bus.$emit('message:push', '成功加入討伐列表', 'success')
-          })
-        } else {
-          this.$bus.$emit('message:push', '此懸賞犯已在討伐列表中', 'danger')
-          $('#productModal').modal('hide')
-        }
-      })
+      this.$store.dispatch('cartModules/addtoCart', { id, qty })
+    },
+    // 更改項目
+    changeCategory (category) {
+      this.$store.dispatch('productsModules/changeCategory', category)
     }
   },
   computed: {
-    filterProducts () {
-      const vm = this
-      let newProducts = ''
-      if (vm.status.criminal === '所有罪犯') {
-        newProducts = vm.products
-      } else if (vm.status.criminal === '草帽海賊團') {
-        newProducts = vm.products.filter((item) => item.category === '草帽海賊團')
-      } else if (vm.status.criminal === '四皇') {
-        newProducts = vm.products.filter((item) => item.category === '四皇')
-      } else if (vm.status.criminal === '最惡世代') {
-        newProducts = vm.products.filter((item) => {
-          return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
-        })
-      }
-      return newProducts
-    }
+    isLoading () {
+      return this.$store.state.isLoading
+    },
+    status () {
+      return this.$store.state.productsModules.status
+    },
+    pagination () {
+      return this.$store.state.productsModules.pagination
+    },
+    loadingCart() {
+      return this.$store.state.cartModules.status.loadingCart
+    },
+    ...mapGetters('productsModules', ['filterProducts'])
   },
   created () {
     this.getProducts()

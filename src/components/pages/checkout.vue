@@ -88,48 +88,38 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
-      order: {
-        user: {}
-      },
-      isLoading: false,
       orderId: ''
     }
   },
   methods: {
     getOrder () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`
-      vm.isLoading = true
-      vm.$http.get(api).then((response) => {
-        vm.order = response.data.order
-        vm.isLoading = false
-      })
+      this.$store.dispatch('orderModules/getOrder', this.orderId)
     },
     payOrder () {
       const vm = this
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`
       vm.$http.post(api).then((response) => {
         vm.getOrder()
-        this.$bus.$emit('message:push', '成功寄出', 'success')
+        vm.$store.dispatch('alertModules/updateMessage', {
+          message: '成功寄出',
+          status: 'success'
+        }, { root: true })
       })
     }
   },
   computed: {
-    totalPrice () {
-      const vm = this
-      let carts = vm.cart.carts
-      let total = 0
-
-      if (carts.length > 0) {
-        for (let i = 0; i < carts.length; i++) {
-          total += carts[i].total
-        };
-      }
-      return total
-    }
+    isLoading () {
+      return this.$store.state.isLoading
+    },
+    order() {
+      return this.$store.state.orderModules.order
+    },
+    ...mapGetters('cartModules', ['totalPrice'])
   },
   created () {
     this.orderId = this.$route.params.orderId

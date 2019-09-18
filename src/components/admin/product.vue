@@ -178,7 +178,7 @@ export default {
     pagination
   },
   methods: {
-    // 取得資料
+    // 取得商品資料
     getProducts (page) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`
       const vm = this

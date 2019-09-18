@@ -90,27 +90,23 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
-      cart: {
-        carts: []
-      },
       coupon_code: '',
-      isLoading: false,
       orderId: ''
     }
   },
   methods: {
     // 取得討伐列表
     getCart () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      vm.isLoading = true
-      vm.$http.get(api).then((response) => {
-        vm.cart = response.data.data
-        vm.isLoading = false
-      })
+      this.$store.dispatch('cartModules/getCart')
+    },
+    // 刪除討法列表項目
+    deleteCartItem (id) {
+      this.$store.dispatch('cartModules/deleteCartItem', id)
     },
     // 套用事件代碼
     addCouponCode () {
@@ -120,22 +116,18 @@ export default {
         code: vm.coupon_code
       }
       vm.$http.post(api, { data: coupon }).then((response) => {
-        console.log(response.data)
         vm.getCart()
         if (response.data.success === true) {
-          vm.$bus.$emit('message:push', response.data.message, 'success')
+          vm.$store.dispatch('alertModules/updateMessage', {
+            message: '成功套用事件代碼',
+            status: 'success'
+          }, { root: true })
         } else {
-          vm.$bus.$emit('message:push', response.data.message, 'danger')
+          vm.$store.dispatch('alertModules/updateMessage', {
+            message: '事件代碼不存在',
+            status: 'danger'
+          }, { root: true })
         }
-      })
-    },
-    // 刪除討法列表項目
-    deleteCartItem (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
-      const vm = this
-      vm.$http.delete(api).then((response) => {
-        vm.$bus.$emit('message:push', '成功刪除懸賞犯', 'success')
-        vm.getCart()
       })
     },
     // 下一步
@@ -145,25 +137,23 @@ export default {
         if (valid) {
           this.$router.push('/createList')
         } else {
-          vm.$bus.$emit('message:push', '請輸入事件代碼', 'danger')
+          vm.$store.dispatch('alertModules/updateMessage', {
+            message: '請輸入事件代碼',
+            status: 'danger'
+          }, { root: true })
         }
       })
     }
 
   },
   computed: {
-    totalPrice () {
-      const vm = this
-      let carts = vm.cart.carts
-      let total = 0
-
-      if (carts.length > 0) {
-        for (let i = 0; i < carts.length; i++) {
-          total += carts[i].final_total
-        };
-      }
-      return total
-    }
+    isLoading() {
+      return this.$store.state.isLoading
+    },
+    cart() {
+      return this.$store.state.cartModules.cart
+    },
+    ...mapGetters('cartModules', ['totalPrice'])
   },
   created () {
     this.getCart()

@@ -77,6 +77,9 @@ import 'swiper/dist/css/swiper.min.css'
 export default {
   data () {
     return {
+      product: {
+        category: '草帽海賊團',
+      },
       swiperOption: {
         autoplay: { // 自動撥放
           delay: 3000,
@@ -101,9 +104,7 @@ export default {
           prevEl: '.swiper-button-prev' // 上一個按鈕
         }
       },
-      products: [],
-      pages: '',
-      isLoading: false
+      pages: ''
     }
   },
   components: {
@@ -111,19 +112,17 @@ export default {
     swiperSlide
   },
   methods: {
-    // 取得商品資料
-    getProducts () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
-      vm.isLoading = true
-      vm.$http.get(api).then((response) => {
-        vm.products = response.data.products.filter((item) => {
-          return item.category === '草帽海賊團'
-        })
-        vm.isLoading = false
-      })
+    getProducts() {
+      this.$store.dispatch('productsModules/getProducts', this.product)
     }
-
+  },
+  computed: {
+    isLoading () {
+      return this.$store.state.isLoading
+    },
+    products () {
+      return this.$store.state.productsModules.products
+    }
   },
   created () {
     this.getProducts()

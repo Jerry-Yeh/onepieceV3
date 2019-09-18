@@ -99,6 +99,8 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
@@ -111,22 +113,12 @@ export default {
         },
         message: ''
       },
-      cart: {
-        carts: []
-      },
-      isLoading: false
     }
   },
   methods: {
     // 取得討伐列表
     getCart () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      vm.isLoading = true
-      vm.$http.get(api).then((response) => {
-        vm.cart = response.data.data
-        vm.isLoading = false
-      })
+      this.$store.dispatch('cartModules/getCart')
     },
     // 建立訂單
     createOrder () {
@@ -139,28 +131,29 @@ export default {
             if (response.data.success) {
               vm.$router.push(`/checkout/${response.data.orderId}`)
             } else {
-              vm.$bus.$emit('message:push', '討伐列表無資料', 'danger')
+              vm.$store.dispatch('alertModules/updateMessage', {
+                message: '討伐列表無資料',
+                status: 'danger'
+              }, { root: true })
             }
           })
         } else {
-          vm.$bus.$emit('message:push', '資料尚未填妥', 'danger')
+          vm.$store.dispatch('alertModules/updateMessage', {
+            message: '資料尚未填妥',
+            status: 'danger'
+          }, { root: true })
         }
       })
     }
   },
   computed: {
-    totalPrice () {
-      const vm = this
-      let carts = vm.cart.carts
-      let total = 0
-
-      if (carts.length > 0) {
-        for (let i = 0; i < carts.length; i++) {
-          total += carts[i].final_total
-        };
-      }
-      return total
-    }
+    isLoading () {
+      return this.$store.state.isLoading
+    },
+    cart() {
+      return this.$store.state.cartModules.cart
+    },
+    ...mapGetters('cartModules', ['totalPrice'])
   },
   created () {
     this.getCart()

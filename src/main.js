@@ -10,6 +10,7 @@ import 'bootstrap'
 import jQuery from 'jquery'
 import VeeValidate from 'vee-validate'
 import zhTWValidate from 'vee-validate/dist/locale/zh_TW'
+import Vuex from 'vuex'
 
 // 自定義元件
 import App from './App.vue'
@@ -29,6 +30,7 @@ Vue.filter('currency', currencyFilter) // filters/currency
 Vue.filter('date', dateFilter)
 Vue.use(VeeValidate)
 VeeValidate.Validator.localize('zh_TW', zhTWValidate)
+Vue.use(Vuex)
 
 new Vue({
   router,
