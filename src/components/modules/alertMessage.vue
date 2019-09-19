@@ -45,15 +45,9 @@ export default {
     }
   },
   computed: {
-<<<<<<< HEAD
     messages () {
       return this.$store.state.alertModules.messages
     }
-=======
-    messages() {
-      return this.$store.state.alertModules.messages
-    },
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   created () {
     // const vm = this

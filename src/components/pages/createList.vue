@@ -112,11 +112,7 @@ export default {
           address: ''
         },
         message: ''
-<<<<<<< HEAD
       }
-=======
-      },
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     }
   },
   methods: {
@@ -154,11 +150,7 @@ export default {
     isLoading () {
       return this.$store.state.isLoading
     },
-<<<<<<< HEAD
     cart () {
-=======
-    cart() {
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       return this.$store.state.cartModules.cart
     },
     ...mapGetters('cartModules', ['totalPrice'])

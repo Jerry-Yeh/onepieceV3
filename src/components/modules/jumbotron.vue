@@ -2,13 +2,9 @@
   <header id="jumbotron">
     <div class="jumbotron bg-white mb-0 d-flex justify-content-center">
       <h2 class="jumbotron__title">WANTED</h2>
-<<<<<<< HEAD
       <router-link to="/wanted" class="jumbotron__banner">
         <img class="jumbotron__banner__img" src="@/assets/img/jumbotron-2.png" alt="">
       </router-link>
-=======
-      <img class="jumbotron__img" src="@/assets/img/jumbotron-2.png" alt="">
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       <h3 class="jumbotron__subtitle">DEAD &nbsp; OR &nbsp; ALIVE</h3>
     </div>
   </header>
@@ -32,7 +28,6 @@
         font-size: 140px;
       }
     }
-<<<<<<< HEAD
     &__banner {
       z-index: 1;
       &__img {
@@ -46,19 +41,6 @@
           cursor: pointer;
           transform: scale(1.1);
         }
-=======
-    &__img {
-      width: 320px;
-      margin-top: 25px;
-      z-index: 1;
-      transition: all .5s;
-      @include mobile {
-        width: 600px;
-      }
-      &:hover {
-        cursor: pointer;
-        transform: scale(1.1);
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       }
     }
     &__subtitle {

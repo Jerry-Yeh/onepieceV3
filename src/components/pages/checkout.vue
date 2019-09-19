@@ -116,11 +116,7 @@ export default {
     isLoading () {
       return this.$store.state.isLoading
     },
-<<<<<<< HEAD
     order () {
-=======
-    order() {
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       return this.$store.state.orderModules.order
     },
     ...mapGetters('cartModules', ['totalPrice'])

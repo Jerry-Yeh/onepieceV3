@@ -62,15 +62,9 @@ export default {
     isLoading () {
       return this.$store.state.isLoading
     },
-<<<<<<< HEAD
     order () {
       return this.$store.state.orderModules.order
     }
-=======
-    order() {
-      return this.$store.state.orderModules.order
-    },
->>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   created () {
     this.orderId = this.$route.params.orderId
