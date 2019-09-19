@@ -29,7 +29,11 @@
         <!-- wanted  -->
         <div class="col-md-9">
           <ul class="wanted">
+<<<<<<< HEAD
             <li class="wanted__item d-flex flex-column flex-sm-row" v-for="item in categoryProducts" :key="item.id">
+=======
+            <li class="wanted__item d-flex flex-column flex-sm-row" v-for="item in filterProducts" :key="item.id">
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
               <div class="wanted__img">
                 <img :src="item.imageUrl" alt="">
               </div>
@@ -210,10 +214,17 @@ export default {
     pagination () {
       return this.$store.state.productsModules.pagination
     },
+<<<<<<< HEAD
     loadingCart () {
       return this.$store.state.cartModules.status.loadingCart
     },
     ...mapGetters('productsModules', ['categoryProducts'])
+=======
+    loadingCart() {
+      return this.$store.state.cartModules.status.loadingCart
+    },
+    ...mapGetters('productsModules', ['filterProducts'])
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   created () {
     this.getProducts()

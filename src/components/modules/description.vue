@@ -83,11 +83,21 @@
       padding: 4px 8px;
       transition: all .5s;
       font-size: 18px;
+<<<<<<< HEAD
       background-color: rgba(0, 0, 0, 0.8);
       color: white;
       @include mobile {
         font-size: 28px;
       }
+=======
+      @include mobile {
+        font-size: 28px;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+      }
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     }
     &__subtitle {
       font-weight: bold;
@@ -95,11 +105,21 @@
       padding: 4px 8px;
       transition: all .5s;
       font-size: 16px;
+<<<<<<< HEAD
       background-color: rgba(0, 0, 0, 0.8);
       color: white;
       @include mobile {
         font-size: 20px;
       }
+=======
+      @include mobile {
+        font-size: 20px;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+      }
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     }
     &__bg {
       width: 100%;

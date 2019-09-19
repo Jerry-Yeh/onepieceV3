@@ -8,7 +8,11 @@ export default {
     productsPages: [],
     status: {
       category: '所有罪犯',
+<<<<<<< HEAD
       loadingItem: ''
+=======
+      loadingItem: '',
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     },
     pagination: '',
     product: {},
@@ -26,6 +30,10 @@ export default {
           } else {
             return item.category === product.category
           }
+<<<<<<< HEAD
+=======
+          // return item.category === '草帽海賊團'
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
         }))
         context.commit('LOADING', false, { root: true })
       })
@@ -60,6 +68,7 @@ export default {
         context.commit('PRODUCT_NUM', 1)
         context.commit('STATE_LOADINGITEM', '')
       })
+<<<<<<< HEAD
 
       // return new Promise((resolve) => {
       //   return axios.get(api).then((response) => {
@@ -78,6 +87,8 @@ export default {
       //   context.commit('STATE_LOADINGITEM', '')
       //   console.log('product')
       // })
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     },
     // 改變商品項目
     changeCategory (context, category) {
@@ -109,6 +120,7 @@ export default {
     }
   },
   getters: {
+<<<<<<< HEAD
     categoryProducts(state) {
       let newProducts = ''
       let products = state.productsPages
@@ -134,6 +146,21 @@ export default {
         })
       } else {
         newProducts = products.filter((item) => item.category === state.status.category)
+=======
+    filterProducts (state) {
+      let newProducts = ''
+      let productsPages = state.productsPages
+      if (state.status.category === '所有罪犯') {
+        newProducts = productsPages
+      } else if (state.status.category === '草帽海賊團') {
+        newProducts = productsPages.filter((item) => item.category === '草帽海賊團')
+      } else if (state.status.category === '四皇') {
+        newProducts = productsPages.filter((item) => item.category === '四皇')
+      } else if (state.status.category === '最惡世代') {
+        newProducts = productsPages.filter((item) => {
+          return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
+        })
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       }
       return newProducts
     }

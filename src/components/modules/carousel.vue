@@ -8,6 +8,7 @@
     <h2 class="text-center bounty__subtitle">草帽海賊團</h2>
     <!-- swiper -->
     <swiper :options="swiperOption" v-if="products.length > 0">
+<<<<<<< HEAD
       <swiper-slide class="bounty__swiper" v-for="item in products" :key="item.id">
         <img class="bounty__img" :src="item.imageUrl" alt="">
         <div class="bounty__more">
@@ -23,6 +24,10 @@
             加到討伐列表
           </button>
         </div>
+=======
+      <swiper-slide v-for="item in products" :key="item.id">
+        <img class="bounty__img" :src="item.imageUrl" alt="">
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       </swiper-slide>
       <!-- pagination -->
       <div class="swiper-pagination" slot="pagination"></div>
@@ -42,6 +47,7 @@
   @import '~@/assets/config/_typography.scss';
 
   .bounty {
+<<<<<<< HEAD
     &__swiper {
       &:hover {
         .bounty__more {
@@ -49,10 +55,13 @@
         }
       }
     }
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     &__img {
       width: 100%;
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     }
+<<<<<<< HEAD
     &__more {
       opacity: 0;
       position: absolute;
@@ -69,6 +78,8 @@
         width: 50%;
       }
     }
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     &__title {
       font-size: $font-xxl;
     }
@@ -114,7 +125,11 @@ export default {
   data () {
     return {
       product: {
+<<<<<<< HEAD
         category: '草帽海賊團'
+=======
+        category: '草帽海賊團',
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       },
       swiperOption: {
         autoplay: { // 自動撥放
@@ -148,6 +163,7 @@ export default {
     swiperSlide
   },
   methods: {
+<<<<<<< HEAD
     // 取得商品
     getProducts () {
       this.$store.dispatch('productsModules/getProducts', this.product)
@@ -159,6 +175,10 @@ export default {
     // 加到討伐列表
     addtoCart (id, qty = 1) {
       this.$store.dispatch('cartModules/addtoCart', { id, qty })
+=======
+    getProducts() {
+      this.$store.dispatch('productsModules/getProducts', this.product)
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     }
   },
   computed: {
@@ -167,12 +187,15 @@ export default {
     },
     products () {
       return this.$store.state.productsModules.products
+<<<<<<< HEAD
     },
     status () {
       return this.$store.state.productsModules.status
     },
     loadingCart () {
       return this.$store.state.cartModules.status.loadingCart
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     }
   },
   created () {

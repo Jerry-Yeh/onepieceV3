@@ -147,10 +147,17 @@ export default {
 
   },
   computed: {
+<<<<<<< HEAD
     isLoading () {
       return this.$store.state.isLoading
     },
     cart () {
+=======
+    isLoading() {
+      return this.$store.state.isLoading
+    },
+    cart() {
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       return this.$store.state.cartModules.cart
     },
     ...mapGetters('cartModules', ['totalPrice'])

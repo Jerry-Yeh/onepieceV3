@@ -4,7 +4,11 @@
 export default {
   namespaced: true,
   state: {
+<<<<<<< HEAD
     messages: []
+=======
+    messages: [],
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   actions: {
     updateMessage (context, { message, status }) {
@@ -23,6 +27,7 @@ export default {
     }
   },
   mutations: {
+<<<<<<< HEAD
     MESSAGES (state, payload) {
       state.messages.push(payload)
     },
@@ -30,6 +35,15 @@ export default {
       state.messages.splice(payload, 1)
     },
     REMOVEMESSAGEWITHTIMING (state, payload) {
+=======
+    MESSAGES(state, payload) {
+      state.messages.push(payload)
+    },
+    REMOVEMESSAGE(state, payload) {
+      state.messages.splice(payload, 1)
+    },
+    REMOVEMESSAGEWITHTIMING(state, payload) {
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       state.messages.forEach((item, i) => {
         if (item.timestamp === payload) {
           state.messages.splice(i, 1)
@@ -37,4 +51,8 @@ export default {
       })
     }
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3

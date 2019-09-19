@@ -6,7 +6,11 @@ export default {
   state: {
     order: {
       user: {}
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   actions: {
     getOrder (context, orderId) {
@@ -19,8 +23,16 @@ export default {
     }
   },
   mutations: {
+<<<<<<< HEAD
     ORDER (state, payload) {
       state.order = payload
     }
   }
 }
+=======
+    ORDER(state, payload) {
+      state.order = payload
+    }
+  },
+}
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3

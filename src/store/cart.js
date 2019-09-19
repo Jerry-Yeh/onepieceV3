@@ -5,12 +5,21 @@ export default {
   strict: true,
   namespaced: true,
   state: {
+<<<<<<< HEAD
     status: {
       loadingCart: ''
     },
     cart: {
       carts: []
     }
+=======
+    status:{
+      loadingCart: '',
+    },
+    cart: {
+      carts: []
+    },
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   },
   actions: {
     // 取得討伐列表
@@ -34,7 +43,11 @@ export default {
       })
     },
     // 加到討伐列表
+<<<<<<< HEAD
     addtoCart (context, { id, qty }) {
+=======
+    addtoCart(context, {id, qty}) {
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       const cartApi = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
       const cart = {
@@ -66,6 +79,7 @@ export default {
           $('#productModal').modal('hide')
         }
       })
+<<<<<<< HEAD
     }
   },
   mutations: {
@@ -73,6 +87,15 @@ export default {
       state.status.loadingCart = payload
     },
     CART (state, payload) {
+=======
+    },
+  },
+  mutations: {
+    STATUS_LOADINGCART(state, payload) {
+      state.status.loadingCart = payload
+    },
+    CART(state, payload) {
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       state.cart = payload
     }
   },
@@ -87,6 +110,12 @@ export default {
         };
       }
       return total
+<<<<<<< HEAD
     }
   }
 }
+=======
+    },
+  }
+}
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3

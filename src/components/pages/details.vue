@@ -51,7 +51,10 @@
       <swiper :options="swiperOption" v-if="filterProducts.length > 0">
         <swiper-slide v-for="item in filterProducts" :key="item.id">
           <img class="swiper-img" :src="item.imageUrl" alt="">
+<<<<<<< HEAD
           
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
         </swiper-slide>
         <!-- pagination -->
         <div class="swiper-pagination" slot="pagination"></div>
@@ -136,10 +139,10 @@ export default {
   data () {
     return {
       swiperOption: {
-        // autoplay: { // 自動撥放
-        //   delay: 3000,
-        //   disableOnInteraction: false
-        // },
+        autoplay: { // 自動撥放
+          delay: 3000,
+          disableOnInteraction: false
+        },
         speed: 1000, // 切換速度
         loop: true, // 是否循環撥放
         slidesPerView: 3, // 預設 slider 數量
@@ -167,18 +170,25 @@ export default {
   },
   methods: {
     // 取得所有商品
+<<<<<<< HEAD
     getProducts () {
+=======
+    getProducts() {
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
       this.$store.dispatch('productsModules/getProducts', this.product)
     },
     // 取得單一商品詳細資料
     getProduct (id) {
       this.$store.dispatch('productsModules/getProduct', id)
+<<<<<<< HEAD
       // const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
       // return new Promise((resolve) => {
       //   this.$http.get(api).then((response) => {
       //     resolve(response.data.product) 
       //   })
       // })
+=======
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
     },
     // 加到討伐列表
     addtoCart (id, qty) {
@@ -189,6 +199,7 @@ export default {
     isLoading () {
       return this.$store.state.isLoading
     },
+<<<<<<< HEAD
     loadingCart () {
       return this.$store.state.cartModules.status.loadingCart
     },
@@ -203,6 +214,20 @@ export default {
     // this.getProduct(this.$route.params.id).then((response) => {
     //   this.getProducts(response)
     // }) 
+=======
+    loadingCart() {
+      return this.$store.state.cartModules.status.loadingCart
+    },
+    filterProducts() {
+      return this.$store.state.productsModules.products
+    },
+    product() {
+      return this.$store.state.productsModules.product
+    }
+  },
+  created () {
+    this.getProduct(this.$route.params.id)
+>>>>>>> 334e8f4060868643cf64bb998f97d6f6b134a7a3
   }
 }
 </script>
