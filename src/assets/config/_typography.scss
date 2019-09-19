@@ -1,0 +1,26 @@
+// base
+$base-font-size: 16px;
+$base-line-height: 1.5;
+$base-letter-spacing: $base-font-size * 0.08;
+
+// font-size
+$font-xxxl: 45px;
+$font-xxl: $base-font-size * 1.75;
+$font-xl: $base-font-size * 1.5;
+$font-l: $base-font-size * 1.25;
+$font-m: $base-font-size ;
+$font-s: $base-font-size * 0.875;
+$font-xs: $base-font-size * 0.75;
+
+// letter-spacing
+$lsp-xxl: $base-letter-spacing * 2.25;
+$lsp-xl: $base-letter-spacing * 1.5;
+$lsp-l: $base-letter-spacing * 1.25;
+$lsp-m: $base-letter-spacing * 1.125;
+$lsp-b: $base-letter-spacing;
+$lsp-s: $base-letter-spacing * 0.8;
+$lsp-es: $base-letter-spacing * 0.75;
+
+// line-height
+$lh-l: $base-line-height * 1.25;
+$lh-m: $base-line-height;

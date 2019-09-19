@@ -1,0 +1,130 @@
+// 背景填滿置中
+@mixin bg-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+// 尺寸
+@mixin size($w, $h) {
+  width: $w;
+  height: $h;
+}
+
+// 內容水平垂直置中
+@mixin content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// 容器水平垂直置中
+@mixin container-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// font awesome
+@mixin fontAwesome-check {
+  content: "\f00c";
+  font-family: "Font Awesome 5 Pro";
+  font-weight: 900;
+}
+
+// 點擊後的樣式
+@mixin link-hover {
+  &:hover,
+  &:focus,
+  &:active {
+    @content;
+  }
+}
+
+// 按鈕顏色
+@mixin btn-color($bg-c, $text-c) {
+  background-color: $bg-c;
+  color: $text-c;
+  @include link-hover {
+    background-color: darken($bg-c, 15%);
+    color: $text-c;
+  }
+} 
+
+// 斷點
+@mixin large-desktop {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+@mixin desktop {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+@mixin mobileUp {
+  @media (min-width: 577px) and (max-width: 767px) {
+    @content;
+  }
+}
+@mixin mobile {
+  @media (min-width: 576px) {
+    @content;
+  }
+}
+
+// m-modal__container-left-width
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+// 三角形
+@mixin triangle ($size, $color, $align,$type:1){
+  height: 0;
+  width: 0;
+  @if ($align == top){
+    border-bottom: ($size*$type) solid $color;
+    border-left: ($size/2) solid transparent;
+    border-right: ($size/2) solid transparent;
+  }@else if ($align == right){
+    border-left: ($size*$type) solid $color;
+    border-top: ($size/2) solid transparent;
+    border-bottom: ($size/2) solid transparent;
+  }@else if ($align == bottom){
+    border-top: ($size*$type) solid $color;
+    border-left: ($size/2) solid transparent;
+    border-right: ($size/2) solid transparent;
+  }@else if ($align == left){
+    border-right: ($size*$type) solid $color;
+    border-top: ($size/2) solid transparent;
+    border-bottom: ($size/2) solid transparent;
+  }
+}
+
+// 文字行數限制
+@mixin text-ellipsis ($num){
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $num; //行數
+  -webkit-box-orient: vertical;
+}
+
+// 文字遮色片
+@mixin text-masked ($url){
+  background-image: url($url);
+  -webkit-text-fill-color: transparent;   // 權重 > color ，並將 transparent 定義為實體顏色
+  // -webkit-text-stroke: 1px black;   // 文字邊框
+  -webkit-background-clip:text;
+  background-size: cover;
+  position: absolute;
+}
+
+
