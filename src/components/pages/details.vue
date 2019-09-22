@@ -48,10 +48,22 @@
     <div class="row">
       <h4>其他{{ product.category }}</h4>
       <!-- swiper -->
-      <swiper :options="swiperOption" v-if="filterProducts.length > 0">
-        <swiper-slide v-for="item in filterProducts" :key="item.id">
-          <img class="swiper-img" :src="item.imageUrl" alt="">
-          
+      <swiper :options="swiperOption" v-if="detailsProducts.length > 0">
+        <swiper-slide v-for="item in detailsProducts" :key="item.id">
+          <img class="details__img" :src="item.imageUrl" alt="">
+          <div class="details__more">
+            <router-link :to="'/details/' + item.id"
+              class="btn btn-outline-light btn-sm mb-1"
+              @click="getProduct(item.id)">
+              <i class="fas fa-spinner fa-spin" v-if="status.loadingItem === item.id"></i>
+              查看更多
+            </router-link>
+            <button type="button" class="btn btn-outline-light btn-sm"
+            @click="addtoCart(item.id)">
+              <i class="fas fa-spinner fa-spin" v-if="loadingCart === item.id"></i>
+              加到討伐列表
+            </button>
+          </div>
         </swiper-slide>
         <!-- pagination -->
         <div class="swiper-pagination" slot="pagination"></div>
@@ -74,6 +86,23 @@
   .details {
     &__img {
       width: 100%;
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    &__more {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: all .5s;
+      background-color: rgba(0, 0, 0, .4);
+      a, button {
+        width: 50%;
+      }
     }
     &__title {
       border-bottom: 1px solid $gray-400;
@@ -93,16 +122,11 @@
       line-height: $lh-l;
     }
   }
-  .swiper-img {
-      width: 80%;
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-    }
   .swiper-container {
     padding: 70px 0 !important;
   }
   .swiper-slide {
     transition: all .5s;
-    height: 80%;
     position: relative;
     &:hover {
       cursor: grab;
@@ -113,6 +137,11 @@
   }
   .swiper-slide-next {
     transform: scale(1.3);
+    &:hover {
+      .details__more {
+        opacity: 1;
+      }
+    }
     img {
       filter: blur(0);
     }
@@ -136,10 +165,10 @@ export default {
   data () {
     return {
       swiperOption: {
-        autoplay: { // 自動撥放
-          delay: 3000,
-          disableOnInteraction: false
-        },
+        // autoplay: { // 自動撥放
+        //   delay: 3000,
+        //   disableOnInteraction: false
+        // },
         speed: 1000, // 切換速度
         loop: true, // 是否循環撥放
         slidesPerView: 3, // 預設 slider 數量
@@ -173,15 +202,9 @@ export default {
     // 取得單一商品詳細資料
     getProduct (id) {
       this.$store.dispatch('productsModules/getProduct', id)
-      // const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
-      // return new Promise((resolve) => {
-      //   this.$http.get(api).then((response) => {
-      //     resolve(response.data.product) 
-      //   })
-      // })
     },
     // 加到討伐列表
-    addtoCart (id, qty) {
+    addtoCart (id, qty = 1) {
       this.$store.dispatch('cartModules/addtoCart', { id, qty })
     }
   },
@@ -195,14 +218,22 @@ export default {
     product () {
       return this.$store.state.productsModules.product
     },
-    ...mapGetters('productsModules', ['filterProducts'])
+    status () {
+      return this.$store.state.productsModules.status
+    },
+    ...mapGetters('productsModules', ['detailsProducts'])
   },
-  created() {
-    this.getProduct(this.$route.params.id)
-    this.getProducts()
-    // this.getProduct(this.$route.params.id).then((response) => {
-    //   this.getProducts(response)
-    // }) 
+  watch: {
+    $route (to, from) {
+      const vm = this
+      vm.productId = to.params.id
+      vm.getProduct(vm.productId)
+    }
+  },
+  created () {
+    const vm = this
+    vm.productId = vm.$route.params.id
+    vm.getProduct(vm.productId)
   }
 }
 </script>

@@ -8,7 +8,7 @@
     <h2 class="text-center bounty__subtitle">草帽海賊團</h2>
     <!-- swiper -->
     <swiper :options="swiperOption" v-if="products.length > 0">
-      <swiper-slide class="bounty__swiper" v-for="item in products" :key="item.id">
+      <swiper-slide v-for="item in products" :key="item.id">
         <img class="bounty__img" :src="item.imageUrl" alt="">
         <div class="bounty__more">
           <router-link :to="'/details/' + item.id"
@@ -42,13 +42,6 @@
   @import '~@/assets/config/_typography.scss';
 
   .bounty {
-    &__swiper {
-      &:hover {
-        .bounty__more {
-          opacity: 1;
-        }
-      }
-    }
     &__img {
       width: 100%;
       box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
@@ -81,7 +74,6 @@
   }
   .swiper-slide {
     transition: all .5s;
-    height: 80%;
     position: relative;
     &:hover {
       cursor: grab;
@@ -92,6 +84,11 @@
   }
   .swiper-slide-next {
     transform: scale(1.3);
+    &:hover {
+      .bounty__more {
+        opacity: 1;
+      }
+    }
     img {
       filter: blur(0);
     }

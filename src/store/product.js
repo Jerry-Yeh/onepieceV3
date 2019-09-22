@@ -12,7 +12,7 @@ export default {
     },
     pagination: '',
     product: {},
-    category: ''
+    detailsProducts: []
   },
   actions: {
     // 取得所有商品
@@ -28,6 +28,7 @@ export default {
           }
         }))
         context.commit('LOADING', false, { root: true })
+        context.dispatch('detailsProducts')
       })
     },
     // 取得所有分頁商品
@@ -59,6 +60,7 @@ export default {
         context.commit('PRODUCT', response.data.product)
         context.commit('PRODUCT_NUM', 1)
         context.commit('STATE_LOADINGITEM', '')
+        context.dispatch('getProducts', context.state.product)
       })
 
       // return new Promise((resolve) => {
@@ -83,6 +85,9 @@ export default {
     changeCategory (context, category) {
       context.commit('STATE_CATEGORY', category)
       context.dispatch('getProductsPages')
+    },
+    detailsProducts (context) {
+      context.commit('DETAILSPRODUCTS')
     }
   },
   mutations: {
@@ -106,10 +111,23 @@ export default {
     },
     PRODUCT_NUM (state, payload) {
       state.product.num = payload
+    },
+    DETAILSPRODUCTS (state) {
+      let products = state.products.filter((item) => {
+        return item.title !== state.product.title
+      })
+
+      state.detailsProducts = products.filter((item) => {
+        if (state.product.category === '最惡世代') {
+          return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
+        } else {
+          return item.category === state.product.category
+        }
+      })
     }
   },
   getters: {
-    categoryProducts(state) {
+    categoryProducts (state) {
       let newProducts = ''
       let products = state.productsPages
       if (state.status.category === '所有罪犯') {
@@ -123,19 +141,23 @@ export default {
       }
       return newProducts
     },
-    filterProducts(state) {
-      let newProducts = ''
-      let products = state.products
-      if (state.status.category === '所有罪犯') {
-        newProducts = products
-      } else if (state.status.category === '最惡世代') {
-        newProducts = products.filter((item) => {
-          return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
-        })
-      } else {
-        newProducts = products.filter((item) => item.category === state.status.category)
-      }
-      return newProducts
+    detailsProducts (state) {
+      return state.detailsProducts
     }
+    // filterProducts (state) {
+    //   let newProducts = ''
+    //   let products = state.products.filter((item) => {
+    //     return item.title !== state.product.title
+    //   })
+    //   if (state.product.category === '最惡世代') {
+    //     newProducts = products.filter((item) => {
+    //       return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
+    //     })
+    //   } else {
+    //     newProducts = products.filter((item) => item.category === state.product.category)
+    //   }
+    //   console.log(newProducts)
+    //   return newProducts
+    // }
   }
 }
