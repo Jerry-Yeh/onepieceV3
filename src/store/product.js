@@ -12,7 +12,7 @@ export default {
     },
     pagination: '',
     product: {},
-    detailsProducts: []
+    filterProducts: []
   },
   actions: {
     // 取得所有商品
@@ -28,7 +28,7 @@ export default {
           }
         }))
         context.commit('LOADING', false, { root: true })
-        context.dispatch('detailsProducts')
+        context.dispatch('filterProducts')
       })
     },
     // 取得所有分頁商品
@@ -55,39 +55,24 @@ export default {
     getProduct (context, id) {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
       context.commit('STATE_LOADINGITEM', id)
-      axios.get(api).then((response) => {
-        $('#productModal').modal('show')
-        context.commit('PRODUCT', response.data.product)
-        context.commit('PRODUCT_NUM', 1)
-        context.commit('STATE_LOADINGITEM', '')
-        context.dispatch('getProducts', context.state.product)
+
+      return new Promise((resolve) => {
+        axios.get(api).then((response) => {
+          $('#productModal').modal('show')
+          context.commit('PRODUCT', response.data.product)
+          context.commit('PRODUCT_NUM', 1)
+          context.commit('STATE_LOADINGITEM', '')
+          resolve(response.data.product)
+        })
       })
-
-      // return new Promise((resolve) => {
-      //   return axios.get(api).then((response) => {
-      //     $('#productModal').modal('show')
-      //     context.commit('PRODUCT', response.data.product)
-      //     context.commit('PRODUCT_NUM', 1)
-      //     context.commit('STATE_LOADINGITEM', '')
-      //     resolve(response.data.product)
-      //   })
-      // })
-
-      // return axios.get(api).then((response) => {
-      //   $('#productModal').modal('show')
-      //   context.commit('PRODUCT', response.data.product)
-      //   context.commit('PRODUCT_NUM', 1)
-      //   context.commit('STATE_LOADINGITEM', '')
-      //   console.log('product')
-      // })
     },
     // 改變商品項目
     changeCategory (context, category) {
       context.commit('STATE_CATEGORY', category)
       context.dispatch('getProductsPages')
     },
-    detailsProducts (context) {
-      context.commit('DETAILSPRODUCTS')
+    filterProducts (context) {
+      context.commit('FILTERPRODUCTS')
     }
   },
   mutations: {
@@ -112,12 +97,12 @@ export default {
     PRODUCT_NUM (state, payload) {
       state.product.num = payload
     },
-    DETAILSPRODUCTS (state) {
+    FILTERPRODUCTS (state) {
       let products = state.products.filter((item) => {
         return item.title !== state.product.title
       })
 
-      state.detailsProducts = products.filter((item) => {
+      state.filterProducts = products.filter((item) => {
         if (state.product.category === '最惡世代') {
           return item.category === '最惡世代' || item.title === '蒙其·D·魯夫' || item.title === '羅羅亞·索隆'
         } else {
@@ -141,8 +126,8 @@ export default {
       }
       return newProducts
     },
-    detailsProducts (state) {
-      return state.detailsProducts
+    filterProducts (state) {
+      return state.filterProducts
     }
     // filterProducts (state) {
     //   let newProducts = ''
