@@ -48,8 +48,9 @@
     <div class="row">
       <h4>其他{{ product.category }}</h4>
       <!-- swiper -->
-      <swiper :options="swiperOption" v-if="detailsProducts.length > 0">
-        <swiper-slide v-for="item in detailsProducts" :key="item.id">
+      <keep-alive>
+        <swiper :options="swiperOption" v-if="filterProducts.length > 0">
+        <swiper-slide v-for="item in filterProducts" :key="item.id">
           <img class="details__img" :src="item.imageUrl" alt="">
           <div class="details__more">
             <router-link :to="'/details/' + item.id"
@@ -75,6 +76,8 @@
           <i class="fas fa-chevron-right"></i>
         </div>
       </swiper>
+      </keep-alive>
+      
     </div>
   </div>
 </template>
@@ -165,10 +168,10 @@ export default {
   data () {
     return {
       swiperOption: {
-        // autoplay: { // 自動撥放
-        //   delay: 3000,
-        //   disableOnInteraction: false
-        // },
+        autoplay: { // 自動撥放
+          delay: 3000,
+          disableOnInteraction: false
+        },
         speed: 1000, // 切換速度
         loop: true, // 是否循環撥放
         slidesPerView: 3, // 預設 slider 數量
@@ -221,19 +224,23 @@ export default {
     status () {
       return this.$store.state.productsModules.status
     },
-    ...mapGetters('productsModules', ['detailsProducts'])
+    ...mapGetters('productsModules', ['filterProducts'])
   },
   watch: {
     $route (to, from) {
       const vm = this
       vm.productId = to.params.id
-      vm.getProduct(vm.productId)
+      vm.$store.dispatch('productsModules/getProduct', vm.productId).then((response) => {
+        vm.getProducts(response)
+      })
     }
   },
   created () {
     const vm = this
     vm.productId = vm.$route.params.id
-    vm.getProduct(vm.productId)
+    vm.$store.dispatch('productsModules/getProduct', vm.productId).then((response) => {
+      vm.getProducts(response)
+    })
   }
 }
 </script>
