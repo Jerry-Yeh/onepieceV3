@@ -21,7 +21,7 @@
               <router-link class="navbar__link" to="/">前台首頁</router-link>
             </li>
             <li class="navbar__item">
-              <router-link class="navbar__link" to="/admin/product">懸賞榜</router-link>
+              <router-link class="navbar__link" to="/admin">懸賞榜</router-link>
             </li>
             <li class="navbar__item">
               <router-link class="navbar__link" to="/admin/order">討伐單列表</router-link>

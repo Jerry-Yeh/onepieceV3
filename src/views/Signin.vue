@@ -64,17 +64,20 @@ export default {
     Alert
   },
   methods: {
-    signin () {
+    signin() {
       const api = `${process.env.VUE_APP_APIPATH}/admin/signin`
       const vm = this
       vm.isLoading = true
       vm.$http.post(api, vm.user).then((response) => {
         if (response.data.success) {
-          vm.$router.push('/admin/product')
+          vm.$router.push('/admin')
           vm.isLoading = false
         } else {
           vm.isLoading = false
-          this.$bus.$emit('message:push', response.data.message, 'danger')
+          vm.$store.dispatch('alertModules/updateMessage', {
+          message: response.data.message,
+          status: 'danger'
+        }, { root: true })
         }
       })
     }

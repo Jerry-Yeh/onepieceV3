@@ -16,11 +16,11 @@ export default new Router({
     },
     {
       path: '/admin',
-      name: 'dashboard',
+      name: '',
       component: () => import('./views/admin/Dashboard.vue'),
       children: [
         {
-          path: 'product',
+          path: '',
           name: 'product',
           component: () => import('./components/admin/product.vue'),
           meta: { requiresAuth: true }

@@ -186,7 +186,6 @@ export default {
       vm.$http.get(api).then((response) => {
         vm.products = response.data.products
         vm.isLoading = false
-        console.log(response.data)
         vm.pagination = response.data.pagination
       })
     },
@@ -232,14 +231,12 @@ export default {
       const vm = this
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProduct.id}`
       vm.$http.delete(api).then((response) => {
-        console.log(response.data)
         $('#delProductModal').modal('hide')
         vm.getProducts()
       })
     },
     // 新增圖片
     uploadFile () {
-      console.log(this)
       const vm = this
       const uploadedFile = this.$refs.files.files[0]
       const formData = new FormData()
@@ -250,7 +247,6 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }).then((response) => {
-        console.log(response.data)
         if (response.data.success) {
           vm.$set(vm.tempProduct, 'imageUrl', response.data.imageUrl)
         }
