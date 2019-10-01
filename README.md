@@ -1,5 +1,3 @@
-# onepiece-3
-
 # 航海王懸賞電商
 
 Vue.js 練習作品，使用 Vue Cli 3.0 & Vuex
