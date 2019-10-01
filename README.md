@@ -8,6 +8,8 @@ Vue.js 練習作品，使用 Vue Cli 3.0 & Vuex
 
 ## DEMO
 
+[https://jerry-yeh.github.io/onepieceV3/](https://jerry-yeh.github.io/onepieceV3/)
+
 ## 使用技術
 
 ## 使用 Plugin 
